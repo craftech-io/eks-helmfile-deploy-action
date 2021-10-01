@@ -1,0 +1,47 @@
+# action.yml
+name: 'EKS Helmfile Deployment'
+description: 'Deploy a helm chart to EKS cluster using Helmfile.'
+branding:
+  icon: anchor
+  color: yellow
+inputs:
+  aws-secret-access-key:
+    description: 'AWS credentials used to login to eks.'
+    required: true
+  aws-access-key-id:
+    description: 'AWS credentials used to login to eks.'
+    required: true
+  aws-region:
+    description: 'AWS region to use (default: us-west-2)'
+    required: true
+    default: us-east-1
+  cluster-name:
+    description: 'EKS cluster name.'
+    required: true
+  cluster-role-arn:
+    description: 'EKS cluster admin role arn.'
+    required: false
+  namespace:
+    description: 'Kubernetes namespace to use.'
+    required: true
+  helmfile-path:
+    description: 'The path where lives the helmfile.'
+    required: false
+    default: 'deploy/'
+  helmfile:
+    description: 'The name of the helmfile file.'
+    required: false
+    default: 'helmfile.yaml'
+    
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    AWS_REGION: ${{ inputs.aws-region }}
+    AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
+    AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+    CLUSTER_NAME: ${{ inputs.cluster-name }}
+    CLUSTER_ROLE_ARN: ${{ inputs.cluster-role-arn }}
+    DEPLOY_NAMESPACE: ${{ inputs.namespace }}
+    DEPLOY_CHART_PATH: ${{ inputs.chart-path }}
+    HELM_FILE_NAME: ${{ inputs.helmfile }}
