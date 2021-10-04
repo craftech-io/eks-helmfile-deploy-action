@@ -3,9 +3,6 @@ name: Publish Docker image
 on:
   release:
     types: [published]
-  push:
-    branches:
-      - main
 
 jobs:
   push_to_registry:
@@ -21,9 +18,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Get the current 
+        shell: bash
+        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
+        id: version
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: craftech/eks-helmfile-deploy-action:${GITHUB_REF##*/}
+          tags: craftech/eks-helmfile-deploy-action:${{ steps.version.outputs.tag }}
