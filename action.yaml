@@ -43,5 +43,5 @@ runs:
     CLUSTER_NAME: ${{ inputs.cluster-name }}
     CLUSTER_ROLE_ARN: ${{ inputs.cluster-role-arn }}
     DEPLOY_NAMESPACE: ${{ inputs.namespace }}
-    DEPLOY_CHART_PATH: ${{ inputs.chart-path }}
+    DEPLOY_CHART_PATH: ${{ inputs.helmfile-path }}
     HELM_FILE_NAME: ${{ inputs.helmfile }}
