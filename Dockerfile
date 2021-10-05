@@ -1,12 +1,14 @@
-FROM chatwork/helmfile:0.140.0
+FROM quay.io/roboll/helmfile:v0.135.0 as builder    
+
+FROM craftech/ci-tools:kube-tools-latest
 
 # Install the toolset.
 RUN apk update \
     && apk add bash \
-    && pip install awscli \
-    && curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl \
-    && chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
-    
+    && helm plugin install https://github.com/databus23/helm-diff
+
+# Copying helmfile binary and deploy.sh file
+COPY --from=builder /usr/local/bin/helmfile /usr/local/bin/helmfile
 COPY deploy.sh /usr/local/bin/deploy
 
 ENTRYPOINT deploy
