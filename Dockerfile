@@ -5,7 +5,6 @@ FROM craftech/ci-tools:kube-tools-latest
 # Install the toolset.
 RUN apk update \
     && apk add bash \
-    && helm plugin install https://github.com/databus23/helm-diff
 
 # Copying helmfile binary and deploy.sh file
 COPY --from=builder /usr/local/bin/helmfile /usr/local/bin/helmfile
