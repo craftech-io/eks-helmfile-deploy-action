@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
 
 # Login to Kubernetes Cluster.
 if [ -n "$CLUSTER_ROLE_ARN" ]; then
@@ -15,6 +14,7 @@ else
 fi
 
 # Helm Deployment
+helm plugin install https://github.com/databus23/helm-diff
 APPLY_COMMAND="helmfile -e $DEPLOY_NAMESPACE --file $DEPLOY_CHART_PATH/${HELM_FILE_NAME} apply --context 4"
 echo "Executing: ${APPLY_COMMAND}"
 ${APPLY_COMMAND}
