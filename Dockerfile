@@ -4,7 +4,7 @@ FROM craftech/ci-tools:kube-tools-latest
 
 # Install the toolset.
 RUN apk update \
-    && apk add bash \
+    && apk add bash
 
 # Copying helmfile binary and deploy.sh file
 COPY --from=builder /usr/local/bin/helmfile /usr/local/bin/helmfile
